@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: :create
+  before_action :authenticate_user!, only: :create
 
   def create
     answer = @question.answers.new(answer_params)
@@ -7,7 +8,9 @@ class AnswersController < ApplicationController
     if answer.save
       redirect_to @question
     else
-      render :new
+      # тут получился костыль, т.к. приходится рендерить шаблон другого контроллера
+      # плюс приходится в этот шаблон передавать question и answer, пока не придумал как по другому написать
+      render "questions/show",  locals: { question: @question, answer: answer }, status: :unprocessable_entity
     end
   end
 
