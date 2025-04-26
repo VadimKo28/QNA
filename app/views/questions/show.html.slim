@@ -1,16 +1,14 @@
-h1 = question.title
-h3 = question.body
+h1 = @question.title
+h3 = @question.body
+- if is_author?(@question)
+  p = button_to 'Destroy question', question_path(@question), method: :delete
 
-- question.answers.each do |answer|
-  p = answer.body
+= render @question.answers
 
-= form_with(model: [question, answer], local: true) do |form|
+- if flash[:error]
+    p Найдено ошибок: #{flash[:error].count}
+    ul
+      - flash[:error].each do |error|
+        li = error
 
-  = render 'shared/errors', resource: answer
-
-  h3 New answers
-  ul
-    li  = form.label :body
-    li  = form.text_area :body
-    li  = form.submit "Create answer"
-
+= render 'answers/form'

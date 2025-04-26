@@ -5,7 +5,8 @@ feature "User can show question and answers", %q(
   I'd like to be able view question
   I'd like to be able view answer to question
 ) do
-  given(:question) { create(:question, title: "Title1", body: "Body1") }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, title: "Title1", body: "Body1", user: user) }
   given!(:first_answer) { create(:answer, body: "Test first answer", question_id: question.id) }
   given!(:second_answer) { create(:answer, body: "Test second answer", question_id: question.id) }
 

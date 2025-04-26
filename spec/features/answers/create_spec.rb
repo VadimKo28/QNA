@@ -5,9 +5,9 @@ feature "User can create answer to question", %q(
   I'd like to be able to create answer to question
 ) do
   given(:user) { create(:user) }
-  given(:question) { create(:question, title: "Title1", body: "Body1") }
+  given(:question) { create(:question, title: "Title1", body: "Body1", user: user) }
 
-  describe "Authenticate user " do
+  describe "Authenticate user" do
     background do
       sign_in(user)
       visit question_path(question)

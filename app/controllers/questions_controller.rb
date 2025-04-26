@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_question, only: %i[show edit update destroy]
+  before_action :set_answer, only: :show
 
   def index
     @questions = Question.all
@@ -9,13 +11,14 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    @question = current_user.questions.new
   end
 
   def edit
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
       redirect_to @question, notice: "Your question successfully created."
@@ -25,29 +28,27 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to question
+    if @question.update(question_params)
+      redirect_to @question
     else
       render :edit
     end
   end
 
   def destroy
-    question.destroy
+    @question.destroy
     redirect_to questions_path
   end
 
   private
 
-  def answer
-    @answer ||= question.answers.new
+  def set_question
+    @question = Question.find(params[:id])
   end
 
-  def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
+  def set_answer
+    @answer = @question.answers.new
   end
-
-  helper_method :question, :answer
 
   def question_params
     params.require(:question).permit(:title, :body)

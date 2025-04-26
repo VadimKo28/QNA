@@ -1,17 +1,23 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: :create
-  before_action :authenticate_user!, only: :create
+  before_action :authenticate_user!, only: %i[create destroy]
 
   def create
-    answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new(answer_params)
 
-    if answer.save
-      redirect_to @question
-    else
-      # тут получился костыль, т.к. приходится рендерить шаблон другого контроллера
-      # плюс приходится в этот шаблон передавать question и answer, пока не придумал как по другому написать
-      render "questions/show",  locals: { question: @question, answer: answer }, status: :unprocessable_entity
-    end
+    @answer.user = current_user
+
+    flash[:error] = @answer.errors.full_messages unless @answer.save
+
+    redirect_to @question
+  end
+
+  def destroy
+    answer = Answer.find(params[:id])
+    question = answer.question
+    answer.destroy
+
+    redirect_to question
   end
 
   private
