@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
 
   describe "GET #index" do
-    let(:questions) { create_list(:question, 3) }
+    let(:questions) { create_list(:question, 3, user: user) }
 
     before { get :index }
 
@@ -28,6 +29,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "GET #new" do
+    before { login(user) }
     before { get :new }
 
     it "render view new" do
@@ -36,6 +38,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "GET #edit" do
+    before { login(user) }
     before do
       get :edit, params: { id: question }
     end
@@ -46,6 +49,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "POST #create" do
+    before { login(user) }
+
     context "with valid attributes" do
       it "save question" do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
@@ -70,6 +75,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "PATCH #update" do
+    before { login(user) }
+
     context "with valid attributes" do
       it "assigns the requested questios to let @question" do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
@@ -91,6 +98,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context "with invalid attributes" do
+      before { login(user) }
       before do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
       end
@@ -108,7 +116,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "DLETE #destroy" do
-    let!(:question) { create(:question) }
+    before { login(user) }
+
+    let!(:question) { create(:question, user: user) }
     it "delete question" do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       expect(response).to redirect_to questions_path

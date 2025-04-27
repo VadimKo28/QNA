@@ -1,0 +1,4 @@
+p
+  = answer.body
+  - if is_author?(answer)
+    = button_to "Destroy answer", answer_path(answer), method: :delete

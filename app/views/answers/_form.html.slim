@@ -1,0 +1,6 @@
+= form_with(model: [@question, @answer], local: true) do |form|
+  h3 New answers
+  ul
+    li  = form.label :body
+    li  = form.text_area :body
+    li  = form.submit "Create answer"

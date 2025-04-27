@@ -1,0 +1,14 @@
+h1 = @question.title
+h3 = @question.body
+- if is_author?(@question)
+  p = button_to 'Destroy question', question_path(@question), method: :delete
+
+= render @question.answers
+
+- if flash[:error]
+    p Найдено ошибок: #{flash[:error].count}
+    ul
+      - flash[:error].each do |error|
+        li = error
+
+= render 'answers/form'
