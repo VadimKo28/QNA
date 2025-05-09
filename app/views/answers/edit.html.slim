@@ -1,0 +1,10 @@
+= turbo_frame_tag @answer do
+  = render 'shared/errors', resource: @answer
+
+  = form_with model: @answer do |form|
+
+    h3 Edit answers
+    ul
+      li  = form.label :body
+      li  = form.text_area :body
+      li  = form.submit "Save"

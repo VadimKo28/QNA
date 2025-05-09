@@ -7,8 +7,8 @@ feature "User can show question and answers", %q(
 ) do
   given(:user) { create(:user) }
   given(:question) { create(:question, title: "Title1", body: "Body1", user: user) }
-  given!(:first_answer) { create(:answer, body: "Test first answer", question_id: question.id) }
-  given!(:second_answer) { create(:answer, body: "Test second answer", question_id: question.id) }
+  given!(:first_answer) { create(:answer, body: "Test first answer", question_id: question.id, user_id: user.id) }
+  given!(:second_answer) { create(:answer, body: "Test second answer", question_id: question.id, user_id: user.id) }
 
   describe "Unauthenticate user" do
     background do

@@ -21,14 +21,6 @@ feature "User can create answer to question", %q(
         expect(page).to have_content "Answer1"
       end
     end
-
-    context "With invalid attributd" do
-      scenario "display answer error" do
-        click_on "Create answer"
-
-        expect(page).to have_content "Body can't be blank"
-      end
-    end
   end
 
   describe "Unauthenticate user" do

@@ -1,0 +1,6 @@
+= turbo_frame_tag question do
+  h1 = link_to question.title, question_path(question)
+  h3 = question.body
+  - if is_author?(question)
+    = link_to 'Edit', edit_question_path(question)
+    = button_to 'Destroy question', question_path(question), method: :delete
