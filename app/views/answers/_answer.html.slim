@@ -1,9 +1,10 @@
 = turbo_frame_tag answer do
   p
     = answer.body
-    - if answer.by_best
+    - if answer.best
       p Лучший ответ
-    = button_to 'Пометить как лучший ответ', mark_as_best_answer_path(answer), method: :put
+    - if answer.persisted?
+      = button_to 'Пометить как лучший ответ', mark_as_best_answer_path(answer), method: :put
 
     - if is_author?(answer) && answer.persisted?
       = link_to "Edit answer", edit_answer_path(answer), method: :put

@@ -1,5 +1,5 @@
 class AddBestFieldToAnswers < ActiveRecord::Migration[7.2]
   def change
-    add_column :answers, :by_best, :boolean, default: false
+    add_column :answers, :best, :boolean, default: false, null: false
   end
 end
