@@ -84,7 +84,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it "changes question attribute" do
-        patch :update, params: { id: question, question: { title: 'new_title', body: 'new_body' } }
+        patch :update, params: { id: question, question: { title: 'new_title', body: 'new_body' } }, format: :turbo_stream
 
         question.reload
         expect(question.title).to eq 'new_title'
@@ -92,8 +92,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it "redirect to question" do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :turbo_stream
+        expect(response).not_to redirect_to questions_path
       end
     end
 

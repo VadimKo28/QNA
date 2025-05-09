@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions, shallow: true do
-    resources :answers
+    resources :answers do
+      member do
+        put "/mark_as_best", to: "answers#mark_best"
+      end
+    end
   end
 end

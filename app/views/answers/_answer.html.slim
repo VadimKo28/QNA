@@ -1,4 +1,10 @@
-p
-  = answer.body
-  - if is_author?(answer)
-    = button_to "Destroy answer", answer_path(answer), method: :delete
+= turbo_frame_tag answer do
+  p
+    = answer.body
+    - if answer.by_best
+      p Лучший ответ
+    = button_to 'Пометить как лучший ответ', mark_as_best_answer_path(answer), method: :put
+
+    - if is_author?(answer) && answer.persisted?
+      = link_to "Edit answer", edit_answer_path(answer), method: :put
+      = button_to "Destroy answer", answer_path(answer), method: :delete

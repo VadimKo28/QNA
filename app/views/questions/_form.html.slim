@@ -1,0 +1,9 @@
+= turbo_frame_tag @question do
+  = form_with model: @question do |f|
+    = render 'shared/errors', resource: @question
+    ul
+      li = f.label :title
+      li = f.text_field :title
+      li = f.label :body
+      li = f.text_area :body
+      li = f.submit 'Save'

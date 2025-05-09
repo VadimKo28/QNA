@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  describe "POST #create" do
-    let(:user) { create(:user) }
-    let(:question) { create(:question, user: user) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
 
+  describe "POST #create" do
     before { login(user) }
 
     context "valid attribute answer" do
@@ -24,8 +24,31 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it "render question show view" do
-        post :create, params: { question_id: question, answer: { body: nil } }
-        expect(response).to redirect_to assigns(:question)
+        post :create, params: { question_id: question, answer: { body: nil } }, format: :turbo_stream
+        expect(response).to render_template :create
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    before { login(user) }
+
+    context 'with valid attributes' do
+      it 'changes answer attributes' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :turbo_stream
+        answer.reload
+        expect(answer.body).to eq 'new body'
+      end
+    end
+
+
+    context 'with invalid attributes' do
+      it 'does not changes answer body' do
+        expect do
+          patch :update, params: { id: answer, answer: { body: nil } }, format: :turbo_stream
+        end.to_not change(answer, :body)
       end
     end
   end
