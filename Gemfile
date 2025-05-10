@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "3.1.2"
+
 gem "rails", "~> 7.2.2", ">= 7.2.2.1"
 gem "sprockets-rails"
 gem "pg", "~> 1.1"
@@ -12,6 +14,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "slim-rails"
 gem "devise"
+gem "jquery-rails"
 
 
 group :development, :test do

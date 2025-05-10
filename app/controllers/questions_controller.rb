@@ -1,13 +1,13 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show edit update destroy]
-  before_action :set_answer, only: :show
 
   def index
     @questions = Question.all
   end
 
   def show
+    @answer = Answer.new
   end
 
   def new
@@ -21,15 +21,27 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
 
     if @question.save
-      redirect_to @question, notice: "Your question successfully created."
+      respond_to do |format|
+        format.html do
+          redirect_to @question, notice: "Your question successfully created."
+        end
+
+        format.turbo_stream
+      end
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
   def update
     if @question.update(question_params)
-      redirect_to @question
+      respond_to do |format|
+          format.html do
+            redirect_to questions_path
+          end
+
+         format.turbo_stream
+      end
     else
       render :edit
     end
@@ -37,17 +49,20 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to questions_path
+
+    respond_to do |format|
+      format.html do
+        redirect_to questions_path
+      end
+
+      format.turbo_stream
+    end
   end
 
   private
 
   def set_question
     @question = Question.find(params[:id])
-  end
-
-  def set_answer
-    @answer = @question.answers.new
   end
 
   def question_params
