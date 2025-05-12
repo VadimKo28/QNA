@@ -21,6 +21,17 @@ feature "User can create answer to question", %q(
         expect(page).to have_content "Answer1"
       end
     end
+
+
+    scenario "Create answer with attached file" do
+      fill_in "Body", with: "Answer1"
+
+      attach_file "File", [ "#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb" ]
+      click_on "Create answer"
+
+      expect(page).to have_content "rails_helper.rb"
+      expect(page).to have_content "spec_helper.rb"
+    end
   end
 
   describe "Unauthenticate user" do

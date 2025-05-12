@@ -1,8 +1,17 @@
 = turbo_frame_tag answer do
   p
     = answer.body
+
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        p
+          = file.filename.to_s
+          - if is_author?(answer)
+            = link_to "X", attachments_path(id: file.id, question_id: answer.question_id), data: { "turbo-method": :delete }
+
     - if answer.best
       p Лучший ответ
+
     - if answer.persisted?
       = button_to 'Пометить как лучший ответ', mark_as_best_answer_path(answer), method: :put
 

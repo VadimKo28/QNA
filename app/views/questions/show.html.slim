@@ -1,5 +1,13 @@
 = render 'question', question: @question
 
+- if @question.files.attached?
+  - @question.files.each do |file|
+    p
+      = link_to file.filename.to_s, url_for(file)
+      - if is_author?(@question)
+        = link_to "X", attachments_path(id: file.id, question_id: @question.id), data: { "turbo-method": :delete }
+
+
 .answers
   = render @question.answers.sort_by_best
 
