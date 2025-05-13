@@ -5,7 +5,7 @@
     p
       = link_to file.filename.to_s, url_for(file)
       - if is_author?(@question)
-        = link_to "X", attachments_path(id: file.id, question_id: @question.id), data: { "turbo-method": :delete }
+        = link_to "X", attachment_path(id: file.id, question_id: @question.id), data: { "turbo-method": :delete }
 
 
 .answers

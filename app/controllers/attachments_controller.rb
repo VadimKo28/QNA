@@ -1,7 +1,6 @@
 class AttachmentsController < ApplicationController
   def destroy
-    ActiveStorage::Blob.find(params[:id]).delete
-    ActiveStorage::Attachment.find(params[:id]).delete
+    ActiveStorage::Attachment.find(params[:id]).purge
 
     question = Question.find(params[:question_id])
 

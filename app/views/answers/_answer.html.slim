@@ -7,7 +7,7 @@
         p
           = file.filename.to_s
           - if is_author?(answer)
-            = link_to "X", attachments_path(id: file.id, question_id: answer.question_id), data: { "turbo-method": :delete }
+            = link_to "X", attachment_path(id: file.id, question_id: answer.question_id), data: { "turbo-method": :delete }
 
     - if answer.best
       p Лучший ответ

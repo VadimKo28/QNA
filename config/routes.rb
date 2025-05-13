@@ -14,5 +14,5 @@ Rails.application.routes.draw do
     end
   end
 
-  delete "/attachments", to: "attachments#destroy"
+  resources :attachments, only: :destroy
 end
