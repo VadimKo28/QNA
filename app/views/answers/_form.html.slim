@@ -1,9 +1,12 @@
 = turbo_frame_tag @answer do
+  = render 'shared/errors', resource: @answer
+
   = form_with model: [@question, @answer], data: { turbo: true } do |form|
-    = render 'shared/errors', resource: @answer
 
     h3 New answers
     ul
       li  = form.label :body
       li  = form.text_area :body
+      li  = form.label :files
+      li  = form.file_field :files, multiple: true, direct_upload: true
       li  = form.submit "Create answer"

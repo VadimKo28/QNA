@@ -7,4 +7,6 @@
     ul
       li  = form.label :body
       li  = form.text_area :body
+      li  = form.label :files
+      li  = form.file_field :files, multiple: true
       li  = form.submit "Save"
